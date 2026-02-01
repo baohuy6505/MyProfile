@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react"; // Nhớ thêm useRef
 import { BookOpen, Layers, MessageSquare, Globe } from "lucide-react";
-
+import musicFile from '../assets/TriNga.mp3';
 export function Growth() {
  const [isPlaying, setIsPlaying] = useState(false);
 // Sửa dòng này:
@@ -160,7 +160,8 @@ const audioRef = useRef<HTMLAudioElement>(null);
 
           <audio
             ref={audioRef}
-            src="./../../../TriNga.mp3"
+            src={musicFile}
+            preload="auto"
             loop
           />
         </div>

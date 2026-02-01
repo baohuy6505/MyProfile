@@ -2,7 +2,7 @@ import React from "react";
 import { ArrowRight, Mail } from "lucide-react"; // Thêm icon ở đây
 import { FaGithub, FaLinkedinIn, FaFacebookF } from "react-icons/fa6";
 import { SiZalo } from "react-icons/si";
-
+import imageFile from '../assets/NguyenBHuy.jpg';
 export function Hero() {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -139,7 +139,7 @@ export function Hero() {
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-violet-500 rounded-[40%_60%_70%_30%/40%_50%_60%_50%] p-1 animate-spin-slow">
                   <div className="w-full h-full bg-slate-950 rounded-[40%_60%_70%_30%/40%_50%_60%_50%] overflow-hidden">
                     <img
-                      src="/NguyenBHuy.jpg"
+                      src={imageFile}
                       alt="Nguyen Bao Huy"
                       className="w-full h-full object-cover"
                     />
