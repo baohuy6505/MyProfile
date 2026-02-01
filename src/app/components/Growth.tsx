@@ -1,8 +1,24 @@
-import React, { useState, useRef } from 'react'; // Nhớ thêm useRef
+import React, { useState, useRef } from "react"; // Nhớ thêm useRef
 import { BookOpen, Layers, MessageSquare, Globe } from "lucide-react";
 
 export function Growth() {
-  
+ const [isPlaying, setIsPlaying] = useState(false);
+// Sửa dòng này:
+const audioRef = useRef<HTMLAudioElement>(null);
+  const toggleMusic = () => {
+    // FIX LỖI: Kiểm tra xem audioRef.current có tồn tại không trước khi gọi hàm
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        // Thêm catch để tránh lỗi nếu trình duyệt chặn Autoplay
+        audioRef.current.play().catch((error) => {
+          console.error("Playback failed:", error);
+        });
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
   const learningAreas = [
     {
       icon: Layers,
@@ -103,28 +119,51 @@ export function Growth() {
           ))}
         </div>
 
-        {/* Quote Section */}
-       {/* Quote Section */}
-<div className="mt-12 glass-card p-8 text-center relative overflow-hidden group">
-  {/* Thêm hiệu ứng phát sáng nhẹ ở nền khi hover */}
-  <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 to-violet-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-  
-  <div className="max-w-3xl mx-auto relative z-10">
-    <div className="text-6xl text-cyan-400 mb-4 opacity-50 font-serif">"</div>
-    
-    <div className="space-y-4">
-      <p className="text-2xl md:text-3xl text-gray-200 font-medium tracking-wide italic">
-        Ngộ sư bất quyết, khả vấn xuân phong
-        <br />
-        Xuân phong bất ngữ, tức tùy bản tâm
-      </p>
-      
-    
-    </div>
+        <div className="mt-12 glass-card p-8 text-center relative overflow-hidden group cursor-pointer transition-all duration-500">
+          {/* LỚP PHỦ CLICK: Nhấn vào đây để bật nhạc */}
+          <div
+            onClick={toggleMusic}
+            className={`absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-violet-500/10 transition-opacity duration-500 z-20
+              ${isPlaying ? "opacity-100" : "opacity-0 group-hover:opacity-100"}
+            `}
+          />
 
-    <div className="w-16 h-1 bg-gradient-to-r from-cyan-500 to-violet-500 mx-auto rounded-full mt-8 opacity-50" />
-  </div>
-</div>
+          <div className="max-w-3xl mx-auto relative z-10">
+            {/* Dấu ngoặc kép - Tự động sáng khi isPlaying thay đổi */}
+            <div
+              className={`text-6xl mb-4 transition-all duration-500 select-none inline-block
+                ${isPlaying ? "text-cyan-400 scale-125 drop-shadow-[0_0_15px_rgba(34,211,238,0.8)] opacity-100" : "text-cyan-400 opacity-50 group-hover:opacity-100"}
+            `}
+            >
+              "
+            </div>
+
+            <div className="space-y-4">
+              <p className="text-2xl md:text-3xl text-gray-200 font-medium tracking-wide italic leading-relaxed">
+                Ngộ sư bất quyết, khả vấn xuân phong
+                <br />
+                Xuân phong bất ngữ, tức tùy bản tâm
+              </p>
+
+              {/* Sóng nhạc nhấp nhô hiện ra khi nhạc đang phát */}
+              <div
+                className={`flex justify-center gap-1.5 h-4 mt-6 transition-opacity duration-500 ${isPlaying ? "opacity-100" : "opacity-0"}`}
+              >
+                <div className="w-1 bg-cyan-400 animate-[bounce_0.8s_infinite]" />
+                <div className="w-1 bg-cyan-400 animate-[bounce_1.2s_infinite]" />
+                <div className="w-1 bg-cyan-400 animate-[bounce_1s_infinite]" />
+              </div>
+            </div>
+
+            <div className="w-16 h-1 bg-gradient-to-r from-cyan-500 to-violet-500 mx-auto rounded-full mt-8 opacity-50" />
+          </div>
+
+          <audio
+            ref={audioRef}
+            src="./../../../TriNga.mp3"
+            loop
+          />
+        </div>
       </div>
     </section>
   );
